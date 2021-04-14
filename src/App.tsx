@@ -28,6 +28,7 @@ function App() {
 
     return (
         <>
+            <h1>Simple Chess Timer</h1>
             <TimerDisplay
                 timeToDisplay={
                     state.find((t: Timer) => t.id === FIRST_TIMER)
