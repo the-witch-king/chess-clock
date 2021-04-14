@@ -1,27 +1,48 @@
 import { useState } from 'react'
 import './App.css'
-import { Timer } from './classes/timer'
+import { TimerDisplay } from './components'
+import {
+    FIRST_TIMER,
+    SECOND_TIMER,
+    initializeTimer,
+    Timer,
+    TimerState,
+    toggleTimers,
+    IntervalState,
+} from './timer'
 
 function App() {
-    const [state, setState] = useState<{ timer: Timer }>({
-        timer: new Timer(),
+    const [state, setState] = useState<TimerState>([
+        initializeTimer(300, FIRST_TIMER),
+        initializeTimer(300, SECOND_TIMER),
+    ])
+
+    const [intervalReference, setIntervalReference] = useState<IntervalState>({
+        runningTimerId: SECOND_TIMER,
+        intervalReference: null,
     })
 
-    const startTimer = () => {
-        state.timer.start(setState)
-        setState({ timer: state.timer })
-    }
-
-    const stopTimer = () => {
-        state.timer.stop()
-        setState({ timer: state.timer })
+    const onToggle = (): void => {
+        toggleTimers(state, setState, intervalReference, setIntervalReference)
     }
 
     return (
         <>
-            <h1>{state.timer.timeRemaining.toFixed(0)}</h1>
-            <button onClick={startTimer}>Start timer!</button>
-            <button onClick={stopTimer}>Stop timer!</button>
+            <TimerDisplay
+                timeToDisplay={
+                    state.find((t: Timer) => t.id === FIRST_TIMER)
+                        ?.timeRemaining
+                }
+                onClick={() => onToggle()}
+            />
+
+            <TimerDisplay
+                timeToDisplay={
+                    state.find((t: Timer) => t.id === SECOND_TIMER)
+                        ?.timeRemaining
+                }
+                onClick={() => onToggle()}
+            />
         </>
     )
 }
