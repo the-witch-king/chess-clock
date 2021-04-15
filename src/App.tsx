@@ -1,71 +1,36 @@
-import React, { useState } from 'react'
-import './App.css'
-import { TimerDisplay } from './components'
-import {
-    FIRST_TIMER,
-    SECOND_TIMER,
-    initializeTimer,
-    Timer,
-    TimerState,
-    toggleTimers,
-    IntervalState,
-} from './timer'
-import styled from 'styled-components'
+import { useState } from 'react'
+import { TimerView, Settings } from './components'
 
-const Wrapper = styled.div`
-    display: flex;
-    width: 100vw;
-    height: 100vh;
-`
+const SETTINGS_VIEW = Symbol('settings')
+const TIMER_VIEW = Symbol('timer')
 
-const SPACE_KEY_CODE = 'Space'
-
-function App() {
-    const [state, setState] = useState<TimerState>([
-        initializeTimer(5, FIRST_TIMER),
-        initializeTimer(5, SECOND_TIMER),
-    ])
-
-    const [intervalReference, setIntervalReference] = useState<IntervalState>({
-        runningTimerId: SECOND_TIMER,
-        intervalReference: null,
+const App = () => {
+    const [settings, setSettings] = useState({
+        activeView: SETTINGS_VIEW,
+        startingTime: 300,
     })
 
-    const onToggle = (): void => {
-        toggleTimers(state, setState, intervalReference, setIntervalReference)
-    }
-
-    const onKeyDown = (event: React.KeyboardEvent) => {
-        if (event.code === SPACE_KEY_CODE) {
-            toggleTimers(
-                state,
-                setState,
-                intervalReference,
-                setIntervalReference
-            )
-            event.preventDefault()
-            event.stopPropagation()
-        }
+    const toggleViews = () => {
+        setSettings((settings) => ({
+            ...settings,
+            activeView:
+                settings.activeView === SETTINGS_VIEW
+                    ? TIMER_VIEW
+                    : SETTINGS_VIEW,
+        }))
     }
 
     return (
-        <Wrapper onKeyDown={onKeyDown}>
-            <TimerDisplay
-                timeToDisplay={
-                    state.find((t: Timer) => t.id === FIRST_TIMER)
-                        ?.timeRemaining
-                }
-                onClick={() => onToggle()}
-            />
-
-            <TimerDisplay
-                timeToDisplay={
-                    state.find((t: Timer) => t.id === SECOND_TIMER)
-                        ?.timeRemaining
-                }
-                onClick={() => onToggle()}
-            />
-        </Wrapper>
+        <>
+            {settings.activeView === SETTINGS_VIEW ? (
+                <Settings toggleViews={toggleViews} setSettings={setSettings} />
+            ) : (
+                <TimerView
+                    toggleViews={toggleViews}
+                    startingTime={settings.startingTime}
+                />
+            )}
+        </>
     )
 }
 

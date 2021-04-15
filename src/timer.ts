@@ -33,7 +33,6 @@ export const toggleTimers = (
     { runningTimerId, intervalReference }: IntervalState,
     setIntervalReference: Dispatch<SetStateAction<IntervalState>>
 ): void => {
-    console.log('Toggling!')
     // Game's done!
     if (firstTimer.timeRemaining <= 0 || secondTimer.timeRemaining <= 0) return
 
