@@ -13,8 +13,8 @@ import {
 
 function App() {
     const [state, setState] = useState<TimerState>([
-        initializeTimer(300, FIRST_TIMER),
-        initializeTimer(300, SECOND_TIMER),
+        initializeTimer(5, FIRST_TIMER),
+        initializeTimer(5, SECOND_TIMER),
     ])
 
     const [intervalReference, setIntervalReference] = useState<IntervalState>({

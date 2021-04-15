@@ -10,6 +10,8 @@ export const TimerDisplay = ({
     onClick,
 }: TimerDisplayProps): JSX.Element => (
     <h2 onClick={onClick}>
-        {timeToDisplay ? timeToDisplay.toFixed(DECIMAL_PLACES) : ' - '}
+        {timeToDisplay === 0 || timeToDisplay
+            ? timeToDisplay.toFixed(DECIMAL_PLACES)
+            : ' - '}
     </h2>
 )

@@ -50,10 +50,11 @@ export const toggleTimers = (
         const now = new Date()
         const delta =
             Math.floor(now.getTime() - timerToStart.lastTick.getTime()) / 1000
+        const newRemainingTime = timerToStart.timeRemaining - delta
 
         setState(() => [
             {
-                timeRemaining: timerToStart.timeRemaining - delta,
+                timeRemaining: newRemainingTime,
                 lastTick: now,
                 id: timerToStart.id,
             },
@@ -63,6 +64,10 @@ export const toggleTimers = (
                 id: timerToStop.id,
             },
         ])
+
+        if (newRemainingTime <= 0) {
+            clearInterval(newIntervalReference)
+        }
     }, TICK_INTERVAL)
 
     setIntervalReference({
