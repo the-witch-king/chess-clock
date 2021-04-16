@@ -1,7 +1,5 @@
 import styled from 'styled-components'
 
-const DECIMAL_PLACES = 2
-
 export type TimerDisplayProps = {
     timeToDisplay: number | undefined
     onClick: () => void

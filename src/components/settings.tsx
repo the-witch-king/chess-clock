@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from 'react'
+import { SettingsForm } from '../types'
 import {
     Wrapper,
     Content,
@@ -18,44 +19,49 @@ export const Settings = ({
     toggleViews: () => void
     setSettings: (settings: any) => void
 }) => {
-    const [clockAmount, setClockAmount] = useState({ minutes: 5, seconds: 0 })
-    const [increaseAmount, setIncreaseAmount] = useState(0)
+    const [
+        { minutes, seconds, increaseAmount },
+        setFormSettings,
+    ] = useState<SettingsForm>({
+        minutes: 10,
+        seconds: 0,
+        increaseAmount: 0,
+    })
 
     const handleFormSubmit = () => {
-        setClockAmount((clock) => {
-            const minutes = clock.minutes + Math.floor(clock.seconds / 60)
-            const seconds = clock.seconds % 60
-
-            setSettings((settings: any) => {
-                console.log('foo')
-                return {
-                    ...settings,
-                    startingTime: minutes * 60 + seconds,
-                    increaseAmount: increaseAmount,
-                }
-            })
-
-            return { seconds, minutes }
-        })
-
+        setSettings((settings: any) => ({
+            ...settings,
+            startingTime: minutes * 60 + seconds,
+            increaseAmount: increaseAmount,
+        }))
         toggleViews()
     }
+
     const handleSecondsAmountChange = (
         event: ChangeEvent<HTMLInputElement>
     ) => {
-        setClockAmount((state) => ({ ...state, seconds: +event.target.value }))
+        setFormSettings((settings: SettingsForm) => ({
+            ...settings,
+            seconds: +event.target.value,
+        }))
     }
 
     const handleMinutesAmountChange = (
         event: ChangeEvent<HTMLInputElement>
     ) => {
-        setClockAmount((state) => ({ ...state, minutes: +event.target.value }))
+        setFormSettings((settings: SettingsForm) => ({
+            ...settings,
+            minutes: +event.target.value,
+        }))
     }
 
     const handleIncreaseAmountChange = (
         event: ChangeEvent<HTMLInputElement>
     ) => {
-        setIncreaseAmount(+event.target.value)
+        setFormSettings((settings) => ({
+            ...settings,
+            increaseAmount: +event.target.value,
+        }))
     }
 
     return (
@@ -83,7 +89,7 @@ export const Settings = ({
                             id="timeInput"
                             type="number"
                             min="0"
-                            value={clockAmount.minutes}
+                            value={minutes}
                             onChange={handleMinutesAmountChange}
                         />
                     </FieldSet>
@@ -95,7 +101,7 @@ export const Settings = ({
                             id="timeInput"
                             type="number"
                             min="0"
-                            value={clockAmount.seconds}
+                            value={seconds}
                             onChange={handleSecondsAmountChange}
                         />
                     </FieldSet>
