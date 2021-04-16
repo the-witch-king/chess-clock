@@ -106,6 +106,7 @@ export const Settings = ({
                         <Input
                             id="increaseAmount"
                             type="number"
+                            min="0"
                             value={increaseAmount}
                             onChange={handleIncreaseAmountChange}
                         />

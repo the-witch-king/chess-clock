@@ -25,7 +25,7 @@ const Button = styled.button`
 
 const buildDisplayString = (time: number): string => {
     const displayMinutes: number = Math.floor(time / 60)
-    const displaySeconds: number = time % 60
+    const displaySeconds: number = Math.floor(time % 60)
     return `${displayMinutes}:${displaySeconds.toFixed(0).padStart(2, '0')}`
 }
 
