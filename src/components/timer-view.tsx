@@ -10,6 +10,7 @@ import {
     IntervalState,
 } from '../timer'
 import styled from 'styled-components'
+import { buttonColor } from '../style-constants'
 
 const Wrapper = styled.div`
     display: flex;
@@ -21,6 +22,8 @@ const ToSettings = styled.button`
     width: 100%;
     background-color: #77cbb9;
     height: 10vh;
+    font-size: 2vmax;
+    background-color: ${buttonColor};
 `
 
 const SPACE_KEY_CODE = 'Space'
@@ -87,9 +90,7 @@ export const TimerView = ({
                     onClick={() => onToggle()}
                 />
             </Wrapper>
-            <ToSettings onClick={toggleViews}>
-                &lt;- Back To Settings
-            </ToSettings>
+            <ToSettings onClick={toggleViews}>&lt; Back To Settings</ToSettings>
         </>
     )
 }

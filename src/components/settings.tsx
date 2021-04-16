@@ -1,8 +1,14 @@
 import { ChangeEvent, useState } from 'react'
 import styled from 'styled-components'
+import { buttonColor } from '../style-constants'
 
 const Wrapper = styled.div`
-    background-color: #985f99;
+    background: linear-gradient(
+        127deg,
+        rgba(152, 95, 153, 1) 0%,
+        rgba(87, 55, 88, 1) 57%
+    );
+
     width: 100vw;
     height: 100vh;
 `
@@ -10,22 +16,39 @@ const Content = styled.div`
     max-width: 50%;
     margin: auto;
     padding: 5em;
+    @media (max-width: 1100px) {
+        max-width: none;
+        padding-top: 2em;
+        padding-left: 1em;
+        padding-right: 1em;
+    }
 `
 
 const Header = styled.h1`
     font-size: 5vmax;
     margin-top: 0;
 `
-const Intro = styled.p``
+const Intro = styled.p`
+    font-size: 2vmax;
+`
+const Label = styled.label`
+    font-size: 2vmax;
+`
+
+const Input = styled.input`
+    font-size: 2vmax;
+`
 
 const SubHeader = styled.h2`
-    font-size: 2.5vmax;
+    font-size: 3.5vmax;
 `
 const FieldSet = styled.fieldset`
     display: flex;
     min-width: 10vw;
     justify-content: space-between;
     border: none;
+    padding-left: 0;
+    padding-right: 0;
 `
 
 const StartButton = styled.button`
@@ -33,10 +56,11 @@ const StartButton = styled.button`
     border: none;
     outline: none;
     border-radius: 10px;
-    background-color: #3083dc;
+    background-color: ${buttonColor};
     padding: 0.5em 1em;
     display: block;
     margin: auto;
+    margin-top: 2em;
 `
 
 export const Settings = ({
@@ -46,19 +70,38 @@ export const Settings = ({
     toggleViews: () => void
     setSettings: (settings: any) => void
 }) => {
-    const [clockAmount, setClockAmount] = useState(100)
+    const [clockAmount, setClockAmount] = useState({ minutes: 5, seconds: 0 })
     const [increaseAmount, setIncreaseAmount] = useState(0)
 
     const handleFormSubmit = () => {
-        setSettings((settings: any) => ({
-            ...settings,
-            startingTime: clockAmount,
-            increaseAmount: increaseAmount,
-        }))
+        setClockAmount((clock) => {
+            const minutes = clock.minutes + Math.floor(clock.seconds / 60)
+            const seconds = clock.seconds % 60
+
+            setSettings((settings: any) => {
+                console.log('foo')
+                return {
+                    ...settings,
+                    startingTime: minutes * 60 + seconds,
+                    increaseAmount: increaseAmount,
+                }
+            })
+
+            return { seconds, minutes }
+        })
+
         toggleViews()
     }
-    const handleClockAmountChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setClockAmount(+event.target.value)
+    const handleSecondsAmountChange = (
+        event: ChangeEvent<HTMLInputElement>
+    ) => {
+        setClockAmount((state) => ({ ...state, seconds: +event.target.value }))
+    }
+
+    const handleMinutesAmountChange = (
+        event: ChangeEvent<HTMLInputElement>
+    ) => {
+        setClockAmount((state) => ({ ...state, minutes: +event.target.value }))
     }
 
     const handleIncreaseAmountChange = (
@@ -71,7 +114,12 @@ export const Settings = ({
         <Wrapper>
             <Content>
                 <Header>A Chess Clock</Header>
-                <Intro>Welcome!</Intro>
+                <Intro>
+                    Set the amount of time you'd like each clock to have, and
+                    the amount to increase by when switching. Press begin to be
+                    taken to the clock screen. On the click screen, either
+                    tap/click on the clocks, or press "spacebar" to toggle.
+                </Intro>
                 <SubHeader>Settings</SubHeader>
                 <form
                     onSubmit={(e) => {
@@ -80,19 +128,34 @@ export const Settings = ({
                     }}
                 >
                     <FieldSet>
-                        <label htmlFor="timeInput">Clock Time Amount:</label>
-                        <input
+                        <Label htmlFor="minutesInput">
+                            Clock Minutes Amount:
+                        </Label>
+                        <Input
                             id="timeInput"
                             type="number"
-                            value={clockAmount}
-                            onChange={handleClockAmountChange}
+                            min="0"
+                            value={clockAmount.minutes}
+                            onChange={handleMinutesAmountChange}
                         />
                     </FieldSet>
                     <FieldSet>
-                        <label htmlFor="increaseAmount">
-                            Time to add on toggle:
-                        </label>
-                        <input
+                        <Label htmlFor="secondsInput">
+                            Clock Seconds Amount:
+                        </Label>
+                        <Input
+                            id="timeInput"
+                            type="number"
+                            min="0"
+                            value={clockAmount.seconds}
+                            onChange={handleSecondsAmountChange}
+                        />
+                    </FieldSet>
+                    <FieldSet>
+                        <Label htmlFor="increaseAmount">
+                            Time to add on toggle (seconds):
+                        </Label>
+                        <Input
                             id="increaseAmount"
                             type="number"
                             value={increaseAmount}

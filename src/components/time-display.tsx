@@ -23,6 +23,12 @@ const Button = styled.button`
     }
 `
 
+const buildDisplayString = (time: number): string => {
+    const displayMinutes: number = Math.floor(time / 60)
+    const displaySeconds: number = time % 60
+    return `${displayMinutes}:${displaySeconds.toFixed(0).padStart(2, '0')}`
+}
+
 export const TimeDisplay = ({
     timeToDisplay,
     onClick,
@@ -30,7 +36,7 @@ export const TimeDisplay = ({
     const display = timeToDisplay
         ? timeToDisplay <= 0
             ? 0
-            : timeToDisplay.toFixed(DECIMAL_PLACES)
+            : buildDisplayString(timeToDisplay)
         : '-'
 
     return (
