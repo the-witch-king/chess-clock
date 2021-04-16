@@ -24,22 +24,22 @@ export const Content = styled.div`
 `
 
 export const Header = styled.h1`
-    font-size: 5vmax;
+    font-size: 5vmin;
     margin-top: 0;
 `
 export const Intro = styled.p`
-    font-size: 2vmax;
+    font-size: 2vmin;
 `
 export const Label = styled.label`
-    font-size: 2vmax;
+    font-size: 2vmin;
 `
 
 export const Input = styled.input`
-    font-size: 2vmax;
+    font-size: 2vmin;
 `
 
 export const SubHeader = styled.h2`
-    font-size: 3.5vmax;
+    font-size: 3.5vmin;
 `
 export const FieldSet = styled.fieldset`
     display: flex;
@@ -51,7 +51,7 @@ export const FieldSet = styled.fieldset`
 `
 
 export const StartButton = styled.button`
-    font-size: 2.5vmax;
+    font-size: 2.5vmin;
     border: none;
     outline: none;
     border-radius: 10px;
