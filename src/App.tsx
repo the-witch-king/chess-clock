@@ -8,6 +8,7 @@ const App = () => {
     const [settings, setSettings] = useState({
         activeView: SETTINGS_VIEW,
         startingTime: 300,
+        increaseAmount: 0,
     })
 
     const toggleViews = () => {
@@ -28,6 +29,7 @@ const App = () => {
                 <TimerView
                     toggleViews={toggleViews}
                     startingTime={settings.startingTime}
+                    increaseAmount={settings.increaseAmount}
                 />
             )}
         </>

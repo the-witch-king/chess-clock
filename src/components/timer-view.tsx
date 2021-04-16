@@ -28,9 +28,11 @@ const SPACE_KEY_CODE = 'Space'
 export const TimerView = ({
     startingTime,
     toggleViews,
+    increaseAmount,
 }: {
     startingTime: number
     toggleViews: () => void
+    increaseAmount: number
 }) => {
     const [state, setState] = useState<TimerState>([
         initializeTimer(startingTime, FIRST_TIMER),
@@ -43,7 +45,13 @@ export const TimerView = ({
     })
 
     const onToggle = (): void => {
-        toggleTimers(state, setState, intervalReference, setIntervalReference)
+        toggleTimers(
+            state,
+            setState,
+            intervalReference,
+            setIntervalReference,
+            increaseAmount
+        )
     }
 
     const onKeyDown = (event: React.KeyboardEvent) => {
@@ -52,7 +60,8 @@ export const TimerView = ({
                 state,
                 setState,
                 intervalReference,
-                setIntervalReference
+                setIntervalReference,
+                increaseAmount
             )
             event.preventDefault()
             event.stopPropagation()

@@ -31,7 +31,8 @@ export const toggleTimers = (
     [firstTimer, secondTimer]: TimerState,
     setState: Dispatch<SetStateAction<TimerState>>,
     { runningTimerId, intervalReference }: IntervalState,
-    setIntervalReference: Dispatch<SetStateAction<IntervalState>>
+    setIntervalReference: Dispatch<SetStateAction<IntervalState>>,
+    increaseAmount: number
 ): void => {
     // Game's done!
     if (firstTimer.timeRemaining <= 0 || secondTimer.timeRemaining <= 0) return
@@ -45,6 +46,10 @@ export const toggleTimers = (
     } else {
         timerToStart = { ...firstTimer, lastTick: new Date() }
         timerToStop = secondTimer
+    }
+
+    if (timerToStop.timeRemaining !== timerToStart.timeRemaining) {
+        timerToStop.timeRemaining += increaseAmount
     }
 
     if (!!intervalReference) clearInterval(intervalReference)
