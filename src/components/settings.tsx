@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from 'react'
-import { SettingsForm } from '../types'
+import { AppSettings, SettingsForm } from '../types'
 import {
     Wrapper,
     Content,
@@ -17,7 +17,7 @@ export const Settings = ({
     setSettings,
 }: {
     toggleViews: () => void
-    setSettings: (settings: any) => void
+    setSettings: (fn: (settings: AppSettings) => AppSettings) => void
 }) => {
     const [
         { minutes, seconds, increaseAmount },
@@ -29,40 +29,24 @@ export const Settings = ({
     })
 
     const handleFormSubmit = () => {
-        setSettings((settings: any) => ({
-            ...settings,
-            startingTime: minutes * 60 + seconds,
-            increaseAmount: increaseAmount,
-        }))
+        setSettings(
+            (settings: AppSettings): AppSettings => ({
+                ...settings,
+                startingTime: minutes * 60 + seconds,
+                increaseAmount: increaseAmount,
+            })
+        )
         toggleViews()
     }
 
-    const handleSecondsAmountChange = (
-        event: ChangeEvent<HTMLInputElement>
-    ) => {
+    const handleInputChange = (
+        event: ChangeEvent<HTMLInputElement>,
+        key: keyof SettingsForm
+    ): void =>
         setFormSettings((settings: SettingsForm) => ({
             ...settings,
-            seconds: +event.target.value,
+            [key]: +event.target.value,
         }))
-    }
-
-    const handleMinutesAmountChange = (
-        event: ChangeEvent<HTMLInputElement>
-    ) => {
-        setFormSettings((settings: SettingsForm) => ({
-            ...settings,
-            minutes: +event.target.value,
-        }))
-    }
-
-    const handleIncreaseAmountChange = (
-        event: ChangeEvent<HTMLInputElement>
-    ) => {
-        setFormSettings((settings) => ({
-            ...settings,
-            increaseAmount: +event.target.value,
-        }))
-    }
 
     return (
         <Wrapper>
@@ -90,7 +74,9 @@ export const Settings = ({
                             type="number"
                             min="0"
                             value={minutes}
-                            onChange={handleMinutesAmountChange}
+                            onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                                handleInputChange(event, 'minutes')
+                            }
                         />
                     </FieldSet>
                     <FieldSet>
@@ -102,7 +88,9 @@ export const Settings = ({
                             type="number"
                             min="0"
                             value={seconds}
-                            onChange={handleSecondsAmountChange}
+                            onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                                handleInputChange(event, 'seconds')
+                            }
                         />
                     </FieldSet>
                     <FieldSet>
@@ -114,7 +102,9 @@ export const Settings = ({
                             type="number"
                             min="0"
                             value={increaseAmount}
-                            onChange={handleIncreaseAmountChange}
+                            onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                                handleInputChange(event, 'increaseAmount')
+                            }
                         />
                     </FieldSet>
 
