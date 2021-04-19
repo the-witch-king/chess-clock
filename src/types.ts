@@ -32,3 +32,8 @@ export type Timer = {
     lastTick: Date
 }
 export type TimerState = [Timer, Timer]
+
+export type IntervalState = {
+    intervalReference: ReturnType<typeof setInterval> | null
+    runningTimerId: TimerId
+}
