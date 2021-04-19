@@ -21,13 +21,19 @@ export const TimeDisplay = ({
     time,
     onClick,
 }: TimerDisplayProps): JSX.Element => {
+    if (time <= 0)
+        return (
+            <Button type="button" disabled>
+                {'Time over!'}
+            </Button>
+        )
+
     const displayMinutes: number = Math.floor(time / 60)
     const displaySeconds: number = Math.floor(time % 60)
 
-    const display =
-        displaySeconds <= 0
-            ? 'Time over!'
-            : `${displayMinutes}:${displaySeconds.toFixed(0).padStart(2, '0')}`
+    const display = `${displayMinutes}:${displaySeconds
+        .toFixed(0)
+        .padStart(2, '0')}`
 
     return (
         <Button type="button" onClick={onClick}>

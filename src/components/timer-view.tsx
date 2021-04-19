@@ -101,6 +101,8 @@ export const TimerView = ({
         initializeTimer(startingTime, SECOND_TIMER),
     ])
 
+    console.log('State: ', state)
+
     const [intervalReference, setIntervalReference] = useState<IntervalState>({
         runningTimerId: SECOND_TIMER,
         intervalReference: null,
