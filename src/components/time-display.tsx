@@ -1,9 +1,5 @@
 import styled from 'styled-components'
-
-export type TimerDisplayProps = {
-    timeToDisplay: number | undefined
-    onClick: () => void
-}
+import { TimerDisplayProps } from '../types'
 
 const Button = styled.button`
     width: 50%;
@@ -21,21 +17,17 @@ const Button = styled.button`
     }
 `
 
-const buildDisplayString = (time: number): string => {
-    const displayMinutes: number = Math.floor(time / 60)
-    const displaySeconds: number = Math.floor(time % 60)
-    return `${displayMinutes}:${displaySeconds.toFixed(0).padStart(2, '0')}`
-}
-
 export const TimeDisplay = ({
-    timeToDisplay,
+    time,
     onClick,
 }: TimerDisplayProps): JSX.Element => {
-    const display = timeToDisplay
-        ? timeToDisplay <= 0
-            ? 0
-            : buildDisplayString(timeToDisplay)
-        : '-'
+    const displayMinutes: number = Math.floor(time / 60)
+    const displaySeconds: number = Math.floor(time % 60)
+
+    const display =
+        displaySeconds <= 0
+            ? 'Time over!'
+            : `${displayMinutes}:${displaySeconds.toFixed(0).padStart(2, '0')}`
 
     return (
         <Button type="button" onClick={onClick}>

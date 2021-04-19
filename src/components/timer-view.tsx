@@ -1,14 +1,8 @@
 import React, { useState } from 'react'
 import { TimeDisplay } from '.'
-import {
-    FIRST_TIMER,
-    SECOND_TIMER,
-    initializeTimer,
-    Timer,
-    TimerState,
-    toggleTimers,
-    IntervalState,
-} from '../timer'
+import { FIRST_TIMER, SECOND_TIMER } from '../constants'
+import { Timer, TimerState } from '../types'
+import { initializeTimer, toggleTimers, IntervalState } from '../timer'
 import styled from 'styled-components'
 import { buttonColor } from '../style-constants'
 
@@ -75,17 +69,17 @@ export const TimerView = ({
         <>
             <Wrapper onKeyDown={onKeyDown}>
                 <TimeDisplay
-                    timeToDisplay={
-                        state.find((t: Timer) => t.id === FIRST_TIMER)
-                            ?.timeRemaining
+                    time={
+                        state.find((t: Timer) => t.id === FIRST_TIMER)!
+                            .timeRemaining
                     }
                     onClick={() => onToggle()}
                 />
 
                 <TimeDisplay
-                    timeToDisplay={
-                        state.find((t: Timer) => t.id === SECOND_TIMER)
-                            ?.timeRemaining
+                    time={
+                        state.find((t: Timer) => t.id === SECOND_TIMER)!
+                            .timeRemaining
                     }
                     onClick={() => onToggle()}
                 />

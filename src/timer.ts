@@ -1,20 +1,9 @@
 import { Dispatch, SetStateAction } from 'react'
-
-const TICK_INTERVAL = 25
-
-export const FIRST_TIMER = Symbol('firstTimer')
-export const SECOND_TIMER = Symbol('secondTimer')
-
-/** Types */
-export type Timer = {
-    timeRemaining: number
-    id: Symbol
-    lastTick: Date
-}
-export type TimerState = [Timer, Timer]
+import { TICK_INTERVAL, FIRST_TIMER, SECOND_TIMER } from './constants'
+import { Timer, TimerId, TimerState } from './types'
 
 /** Functions */
-export const initializeTimer = (allotedTime: number, id: Symbol): Timer => ({
+export const initializeTimer = (allotedTime: number, id: TimerId): Timer => ({
     lastTick: new Date(),
     timeRemaining: allotedTime,
     id,
