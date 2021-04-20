@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { buttonColor } from '../style-constants'
 
 export const Wrapper = styled.div`
     background: linear-gradient(
@@ -55,7 +54,7 @@ export const StartButton = styled.button`
     border: none;
     outline: none;
     border-radius: 10px;
-    background-color: ${buttonColor};
+    background-color: blue;
     padding: 0.5em 1em;
     display: block;
     margin: auto;

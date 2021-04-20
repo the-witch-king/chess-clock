@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
-import { TimeDisplay } from '.'
-import { TICK_INTERVAL } from '../constants'
+import { TimerDisplay } from '.'
 import { TimerState, IntervalReference } from '../types'
 
 import styled from 'styled-components'
-import { buttonColor } from '../style-constants'
 
 const Wrapper = styled.div`
     display: flex;
@@ -17,10 +15,11 @@ const ToSettings = styled.button`
     background-color: #77cbb9;
     height: 10vh;
     font-size: 2vmax;
-    background-color: ${buttonColor};
+    background-color: blue;
 `
 
 const SPACE_KEY_CODE = 'Space'
+const TICK_INTERVAL = 25
 
 export const TimerView = ({
     startingTime,
@@ -136,12 +135,12 @@ export const TimerView = ({
     return (
         <>
             <Wrapper onKeyDown={onKeyDown}>
-                <TimeDisplay
+                <TimerDisplay
                     time={state.first.timeRemaining}
                     onClick={() => onToggle()}
                 />
 
-                <TimeDisplay
+                <TimerDisplay
                     time={state.second.timeRemaining}
                     onClick={() => onToggle()}
                 />

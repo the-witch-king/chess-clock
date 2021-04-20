@@ -2,13 +2,17 @@ import { useState } from 'react'
 import { TimerView, Settings } from './components'
 import { ThemeProvider } from 'styled-components'
 import { theme } from './theme'
-import { AppSettings, ViewType } from './types'
-import { SETTINGS_VIEW, TIMER_VIEW } from './constants'
+import { AppSettings } from './types'
+
+const SETTINGS_VIEW = Symbol('settings')
+const TIMER_VIEW = Symbol('timer')
+
+type ViewType = typeof SETTINGS_VIEW | typeof TIMER_VIEW
 
 const App = () => {
     const [settings, setSettings] = useState<AppSettings>({
         activeView: SETTINGS_VIEW,
-        startingTime: 300,
+        startingTime: 0, // Settings view will set this
         increaseAmount: 0,
     })
 

@@ -17,7 +17,7 @@ const Button = styled.button`
     }
 `
 
-export const TimeDisplay = ({
+export const TimerDisplay = ({
     time,
     onClick,
 }: TimerDisplayProps): JSX.Element => {

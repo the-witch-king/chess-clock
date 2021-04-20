@@ -10,7 +10,7 @@ import {
     SubHeader,
     FieldSet,
     StartButton,
-} from './settings.styles'
+} from './settings.styled-components'
 
 export const Settings = ({
     toggleViews,

@@ -1,7 +1,3 @@
-import { SETTINGS_VIEW, TIMER_VIEW } from './constants'
-
-export type ViewType = typeof SETTINGS_VIEW | typeof TIMER_VIEW
-
 export type AppSettings = {
     activeView: Symbol
     startingTime: number
