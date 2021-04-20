@@ -3,20 +3,19 @@ import styled from 'styled-components'
 export const Wrapper = styled.div`
     background: linear-gradient(
         127deg,
-        rgba(152, 95, 153, 1) 0%,
-        rgba(87, 55, 88, 1) 57%
+        ${(props) => props.theme.colors.purple} 0%,
+        ${(props) => props.theme.colors.pink} 87%
     );
 
     width: 100vw;
     height: 100vh;
 `
 export const Content = styled.div`
-    max-width: 50%;
+    max-width: 600px;
     margin: auto;
     padding: 5em;
-    @media (max-width: 1100px) {
-        max-width: none;
-        padding-top: 2em;
+    @media (max-width: 700px) {
+        padding-top: 20%;
         padding-left: 1em;
         padding-right: 1em;
     }
@@ -24,6 +23,7 @@ export const Content = styled.div`
 
 export const Header = styled.h1`
     font-size: 5vmin;
+    text-align: center;
     margin-top: 0;
 `
 export const Intro = styled.p`
@@ -35,6 +35,20 @@ export const Label = styled.label`
 
 export const Input = styled.input`
     font-size: 2vmin;
+    border-radius: 5px;
+    box-shadow: none;
+    border: none;
+    outline: none;
+    padding: 10px 15px;
+    border: 2px solid transparent;
+    &:hover {
+        border: 2px solid ${({ theme }) => theme.colors.blue + 'aa'};
+    }
+
+    &:focus {
+        border: 2px solid ${({ theme }) => theme.colors.blue};
+    }
+    transition: 0.2s;
 `
 
 export const SubHeader = styled.h2`
@@ -42,6 +56,7 @@ export const SubHeader = styled.h2`
 `
 export const FieldSet = styled.fieldset`
     display: flex;
+    align-items: center;
     min-width: 10vw;
     justify-content: space-between;
     border: none;
@@ -54,9 +69,15 @@ export const StartButton = styled.button`
     border: none;
     outline: none;
     border-radius: 10px;
-    background-color: blue;
+    background-color: ${({ theme }) => theme.colors.yellow};
     padding: 0.5em 1em;
     display: block;
     margin: auto;
     margin-top: 2em;
+    transition: 0.2s;
+    cursor: pointer;
+    &:hover {
+        background-color: ${({ theme }) => theme.colors.darkYellow};
+        box-shadow: 0px 0px 20px -10px black;
+    }
 `

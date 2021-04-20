@@ -66,9 +66,7 @@ export const Settings = ({
                     }}
                 >
                     <FieldSet>
-                        <Label htmlFor="minutesInput">
-                            Clock Minutes Amount:
-                        </Label>
+                        <Label htmlFor="minutesInput">Minutes:</Label>
                         <Input
                             id="timeInput"
                             type="number"
@@ -80,9 +78,7 @@ export const Settings = ({
                         />
                     </FieldSet>
                     <FieldSet>
-                        <Label htmlFor="secondsInput">
-                            Clock Seconds Amount:
-                        </Label>
+                        <Label htmlFor="secondsInput">Seconds:</Label>
                         <Input
                             id="timeInput"
                             type="number"
