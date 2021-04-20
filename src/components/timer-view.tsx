@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { TimeDisplay } from '.'
-import { FIRST_TIMER, SECOND_TIMER, TICK_INTERVAL } from '../constants'
-import { Timer, TimerState, IntervalState, TimerId } from '../types'
+import { TICK_INTERVAL } from '../constants'
+import { TimerState, IntervalReference } from '../types'
 
 import styled from 'styled-components'
 import { buttonColor } from '../style-constants'
@@ -22,14 +22,6 @@ const ToSettings = styled.button`
 
 const SPACE_KEY_CODE = 'Space'
 
-const initializeTimer = (allotedTime: number, id: TimerId): Timer => ({
-    lastTick: new Date(),
-    timeRemaining: allotedTime,
-    id,
-})
-
-const isTimerRunning = (timer: Timer, id: Symbol): boolean => timer.id === id
-
 export const TimerView = ({
     startingTime,
     toggleViews,
@@ -39,79 +31,89 @@ export const TimerView = ({
     toggleViews: () => void
     increaseAmount: number
 }) => {
-    const [state, setState] = useState<TimerState>([
-        initializeTimer(startingTime, FIRST_TIMER),
-        initializeTimer(startingTime, SECOND_TIMER),
-    ])
-
-    const [intervalState, setIntervalReference] = useState<IntervalState>({
-        runningTimerId: SECOND_TIMER,
-        intervalReference: null,
+    const [state, setState] = useState<TimerState>({
+        first: {
+            lastTick: new Date(),
+            timeRemaining: startingTime,
+            active: false,
+        },
+        second: {
+            lastTick: new Date(),
+            timeRemaining: startingTime,
+            active: true,
+        },
     })
 
+    const [intervalState, setIntervalReference] = useState<IntervalReference>(
+        null
+    )
+
     const toggleTimers = (): void => {
-        const [firstTimer, secondTimer] = state
-        const { runningTimerId, intervalReference } = intervalState
+        const { first, second } = state
 
         // Game's done!
-        if (firstTimer.timeRemaining <= 0 || secondTimer.timeRemaining <= 0)
-            return
+        if (first.timeRemaining <= 0 || second.timeRemaining <= 0) return
 
-        let timerToStart: Timer
-        let timerToStop: Timer
+        // Don't increment on game start
+        const shouldIncrementTime = Number(
+            first.timeRemaining !== second.timeRemaining
+        )
 
-        if (isTimerRunning(firstTimer, runningTimerId)) {
-            timerToStart = { ...secondTimer, lastTick: new Date() }
-            timerToStop = firstTimer
-        } else {
-            timerToStart = { ...firstTimer, lastTick: new Date() }
-            timerToStop = secondTimer
+        const newFirst = {
+            lastTick: new Date(),
+            active: !first.active,
+            timeRemaining:
+                first.timeRemaining +
+                shouldIncrementTime * Number(first.active) * increaseAmount,
         }
 
-        // Initial state, don't add time on starting the clocks for first time
-        if (timerToStop.timeRemaining !== timerToStart.timeRemaining) {
-            timerToStop.timeRemaining += increaseAmount
+        const newSecond = {
+            lastTick: new Date(),
+            active: !second.active,
+            timeRemaining:
+                second.timeRemaining +
+                shouldIncrementTime * Number(second.active) * increaseAmount,
         }
 
-        if (!!intervalReference) clearInterval(intervalReference)
+        !!intervalState && clearInterval(intervalState)
 
         const newIntervalReference = setInterval(() => {
+            const activeTimer = newFirst.active ? newFirst : newSecond
             const now = new Date()
             const delta =
-                Math.floor(now.getTime() - timerToStart.lastTick.getTime()) /
-                1000
-            const newRemainingTime = timerToStart.timeRemaining - delta
-
-            setState(() => [
-                {
-                    timeRemaining: newRemainingTime,
-                    lastTick: now,
-                    id: timerToStart.id,
-                },
-                {
-                    timeRemaining: timerToStop.timeRemaining,
-                    lastTick: new Date(),
-                    id: timerToStop.id,
-                },
-            ])
+                (now.getTime() - activeTimer.lastTick.getTime()) / 1000
+            const newRemainingTime = activeTimer.timeRemaining - delta
 
             if (newRemainingTime <= 0) {
                 clearInterval(newIntervalReference)
             }
+
+            setState(
+                newFirst.active
+                    ? {
+                          first: {
+                              lastTick: now,
+                              active: true,
+                              timeRemaining: newRemainingTime,
+                          },
+                          second: { ...newSecond, active: false },
+                      }
+                    : {
+                          first: { ...newFirst, active: false },
+                          second: {
+                              lastTick: now,
+                              active: true,
+                              timeRemaining: newRemainingTime,
+                          },
+                      }
+            )
         }, TICK_INTERVAL)
 
-        setIntervalReference({
-            intervalReference: newIntervalReference,
-            runningTimerId: timerToStart.id,
-        })
+        setIntervalReference(newIntervalReference)
     }
 
     const clearTimer = () => {
-        clearInterval(
-            (intervalState.intervalReference as unknown) as ReturnType<
-                typeof setInterval
-            >
-        )
+        intervalState && clearInterval(intervalState)
     }
 
     const onKeyDown = (event: React.KeyboardEvent) => {
@@ -135,18 +137,12 @@ export const TimerView = ({
         <>
             <Wrapper onKeyDown={onKeyDown}>
                 <TimeDisplay
-                    time={
-                        state.find((t: Timer) => t.id === FIRST_TIMER)!
-                            .timeRemaining
-                    }
+                    time={state.first.timeRemaining}
                     onClick={() => onToggle()}
                 />
 
                 <TimeDisplay
-                    time={
-                        state.find((t: Timer) => t.id === SECOND_TIMER)!
-                            .timeRemaining
-                    }
+                    time={state.second.timeRemaining}
                     onClick={() => onToggle()}
                 />
             </Wrapper>

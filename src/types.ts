@@ -1,9 +1,4 @@
-import {
-    FIRST_TIMER,
-    SECOND_TIMER,
-    SETTINGS_VIEW,
-    TIMER_VIEW,
-} from './constants'
+import { SETTINGS_VIEW, TIMER_VIEW } from './constants'
 
 export type ViewType = typeof SETTINGS_VIEW | typeof TIMER_VIEW
 
@@ -24,16 +19,24 @@ export type TimerDisplayProps = {
     onClick: () => void
 }
 
-export type TimerId = typeof FIRST_TIMER | typeof SECOND_TIMER
-
-export type Timer = {
+interface Timer {
     timeRemaining: number
-    id: TimerId
     lastTick: Date
+    active: boolean
 }
-export type TimerState = [Timer, Timer]
 
-export type IntervalState = {
-    intervalReference: ReturnType<typeof setInterval> | null
-    runningTimerId: TimerId
+export interface RunningTimer extends Timer {
+    active: true
 }
+export interface StoppedTimer extends Timer {
+    active: false
+}
+
+export type TimerState =
+    | { first: RunningTimer; second: StoppedTimer }
+    | {
+          first: StoppedTimer
+          second: RunningTimer
+      }
+
+export type IntervalReference = ReturnType<typeof setInterval> | null
