@@ -24,11 +24,11 @@ const TICK_INTERVAL = 25
 
 export const TimerView = ({
     startingTime,
-    toggleViews,
+    toggleView: toggleViews,
     increaseAmount,
 }: {
     startingTime: number
-    toggleViews: () => void
+    toggleView: () => void
     increaseAmount: number
 }) => {
     const [state, setState] = useState<TimerState>({

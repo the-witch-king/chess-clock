@@ -32,7 +32,7 @@ export const Settings = ({
         setSettings(
             (settings: AppSettings): AppSettings => ({
                 ...settings,
-                startingTime: minutes * 60 + seconds,
+                startTime: minutes * 60 + seconds,
                 increaseAmount: increaseAmount,
             })
         )

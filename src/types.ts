@@ -1,6 +1,6 @@
 export type AppSettings = {
-    activeView: Symbol
-    startingTime: number
+    activeView: Views
+    startTime: number
     increaseAmount: number
 }
 
@@ -36,3 +36,8 @@ export type TimerState =
       }
 
 export type IntervalReference = ReturnType<typeof setInterval> | null
+
+export enum Views {
+    SETTINGS_VIEW = 'settings',
+    CLOCK_VIEW = 'clock',
+}
