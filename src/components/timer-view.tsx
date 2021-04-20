@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { TimeDisplay } from '.'
 import { FIRST_TIMER, SECOND_TIMER, TICK_INTERVAL } from '../constants'
 import { Timer, TimerState, IntervalState, TimerId } from '../types'
@@ -68,6 +68,7 @@ export const TimerView = ({
             timerToStop = secondTimer
         }
 
+        // Initial state, don't add time on starting the clocks for first time
         if (timerToStop.timeRemaining !== timerToStart.timeRemaining) {
             timerToStop.timeRemaining += increaseAmount
         }
@@ -105,8 +106,12 @@ export const TimerView = ({
         })
     }
 
-    const onToggle = (): void => {
-        toggleTimers()
+    const clearTimer = () => {
+        clearInterval(
+            (intervalState.intervalReference as unknown) as ReturnType<
+                typeof setInterval
+            >
+        )
     }
 
     const onKeyDown = (event: React.KeyboardEvent) => {
@@ -115,6 +120,15 @@ export const TimerView = ({
             event.preventDefault()
             event.stopPropagation()
         }
+    }
+
+    const onToggleViews = () => {
+        clearTimer()
+        toggleViews()
+    }
+
+    const onToggle = (): void => {
+        toggleTimers()
     }
 
     return (
@@ -136,7 +150,9 @@ export const TimerView = ({
                     onClick={() => onToggle()}
                 />
             </Wrapper>
-            <ToSettings onClick={toggleViews}>&lt; Back To Settings</ToSettings>
+            <ToSettings onClick={onToggleViews}>
+                &lt; Back To Settings
+            </ToSettings>
         </>
     )
 }
