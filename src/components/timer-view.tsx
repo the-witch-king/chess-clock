@@ -1,21 +1,22 @@
 import React, { useState } from 'react'
 import { TimerDisplay } from '.'
 import { TimerState, IntervalReference } from '../types'
-
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
     display: flex;
     width: 100vw;
     height: 90vh;
+    @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+        flex-direction: column;
+    }
 `
 
 const ToSettings = styled.button`
     width: 100%;
-    background-color: #77cbb9;
+    background-color: ${({ theme }) => theme.colors.purple};
     height: 10vh;
     font-size: 2vmax;
-    background-color: blue;
 `
 
 const SPACE_KEY_CODE = 'Space'
@@ -145,9 +146,7 @@ export const TimerView = ({
                     onClick={() => onToggle()}
                 />
             </Wrapper>
-            <ToSettings onClick={onToggleViews}>
-                &lt; Back To Settings
-            </ToSettings>
+            <ToSettings onClick={onToggleViews}>New Timer</ToSettings>
         </>
     )
 }

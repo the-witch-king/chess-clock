@@ -6,6 +6,9 @@ export const theme = {
         darkYellow: '#E2D512',
         purple: '#8D5A97',
         pink: '#F7BFB4',
-        black: '#F7BFB4',
+        black: 'black',
+    },
+    breakpoints: {
+        mobile: '700px',
     },
 }

@@ -14,7 +14,7 @@ export const Content = styled.div`
     max-width: 600px;
     margin: auto;
     padding: 5em;
-    @media (max-width: 700px) {
+    @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
         padding-top: 20%;
         padding-left: 1em;
         padding-right: 1em;

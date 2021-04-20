@@ -7,13 +7,23 @@ const Button = styled.button`
     border: none;
     outline: none;
     font-size: 10vmin;
+
     &:first-of-type {
-        background-color: #506c64;
-        color: #cdd3d5;
+        background-color: ${({ theme }) => theme.colors.pink};
+        color: ${({ theme }) => theme.colors.black};
     }
+
     &:nth-of-type(2) {
-        background-color: #75b8c8;
-        color: #220c10;
+        background-color: ${({ theme }) => theme.colors.blue};
+        color: ${({ theme }) => theme.colors.black};
+    }
+
+    @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+        flex-grow: 1;
+        width: 100%;
+        &:nth-of-type(2) {
+            transform: rotateX(180deg);
+        }
     }
 `
 
