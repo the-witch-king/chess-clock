@@ -21,8 +21,8 @@ const Button = styled.button`
     @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
         flex-grow: 1;
         width: 100%;
-        &:nth-of-type(2) {
-            transform: rotateX(180deg);
+        &:first-of-type(1) {
+            transform: rotateZ(180deg);
         }
     }
 `
