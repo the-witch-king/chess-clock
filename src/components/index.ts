@@ -1,3 +1,3 @@
-export * from './timer-display'
-export * from './timer-view'
+export * from './time-display'
+export * from './timer'
 export * from './settings'

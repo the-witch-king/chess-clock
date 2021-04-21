@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { TimerView, Settings } from './components'
+import { Timer, Settings } from './components'
 import { ThemeProvider } from 'styled-components'
 import { theme } from './theme'
 import { AppSettings, Views } from './types'
@@ -28,7 +28,7 @@ const App = () => {
     )
 
     const timerView = (
-        <TimerView
+        <Timer
             toggleView={() => toggleView(Views.settings)}
             startingTime={appSettings.startingTime}
             increaseAmount={appSettings.increaseAmount}

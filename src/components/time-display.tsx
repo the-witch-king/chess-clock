@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { TimerDisplayProps } from '../types'
+import { TimeDisplayProps } from '../types'
 
 const Button = styled.button`
     width: 50%;
@@ -27,10 +27,10 @@ const Button = styled.button`
     }
 `
 
-export const TimerDisplay = ({
+export const TimeDisplay = ({
     time,
     onClick,
-}: TimerDisplayProps): JSX.Element => {
+}: TimeDisplayProps): JSX.Element => {
     if (time <= 0)
         return (
             <Button type="button" disabled>
