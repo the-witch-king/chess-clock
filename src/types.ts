@@ -1,5 +1,10 @@
+export enum Views {
+    settings,
+    timer,
+}
+
 export type AppSettings = {
-    activeView: Symbol
+    activeView: Views
     startingTime: number
     increaseAmount: number
 }
